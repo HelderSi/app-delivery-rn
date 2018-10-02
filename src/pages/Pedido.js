@@ -10,6 +10,7 @@ import Header from '../components/Header'
 import Menu from '../components/Menu'
 import colors from '../styles/colors'
 import {connect} from 'react-redux'
+import {Actions} from 'react-native-router-flux'
 
 class Pedido extends Component {
     render(){
@@ -28,7 +29,7 @@ class Pedido extends Component {
                 <View style={styles.total}>
                     <Text style={styles.totalValue}>R$ {this.props.total.toFixed(2).replace('.',',')}</Text>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={() => null}>
+                <TouchableOpacity style={styles.button} onPress={() => (Actions.endereco())}>
                     <Text style={styles.buttonText}>Confirmar Pedido</Text>
                 </TouchableOpacity>
             </View>
