@@ -4,14 +4,14 @@ import {
     Text, 
     StyleSheet, 
     StatusBar,
-    Button,
     TouchableOpacity
  } from 'react-native'
 import Header from '../components/Header'
 import Menu from '../components/Menu'
 import colors from '../styles/colors'
+import {connect} from 'react-redux'
 
-export default class Pedido extends Component {
+class Pedido extends Component {
     render(){
         return(
             <View style={styles.container}>
@@ -26,7 +26,7 @@ export default class Pedido extends Component {
                     <Menu />
                 </View>
                 <View style={styles.total}>
-                    <Text style={styles.totalValue}>R$ 0,00</Text>
+                    <Text style={styles.totalValue}>R$ {this.props.total.toFixed(2).replace('.',',')}</Text>
                 </View>
                 <TouchableOpacity style={styles.button} onPress={() => null}>
                     <Text style={styles.buttonText}>Confirmar Pedido</Text>
@@ -76,3 +76,9 @@ const styles = StyleSheet.create({
         color: colors.darkTransparent
     }
 })
+
+const mapStateToProps = state =>({
+    total: state.pedido.total
+})
+
+export default connect(mapStateToProps)(Pedido)

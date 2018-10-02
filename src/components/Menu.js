@@ -3,20 +3,22 @@ import { View, FlatList } from 'react-native'
 
 import Product from './Product'
 
-const product_list = [
-    {id:'1', nome:'Burguer Carne', preco:'10,00'},
-    {id:'2', nome:'Burguer Bacon', preco:'15,00'},
-    {id:'3', nome:'Burguer Prime', preco:'25,00'},
-]
+import {connect} from 'react-redux'
 
-export default class Menu extends Component {
+class Menu extends Component {
     render(){
         return(
             <FlatList
-                data={product_list}
+                data={this.props.product_list}
                 renderItem={ ({item}) => <Product name={item.nome} price={item.preco}/>}
                 keyExtractor={ (item) => item.id }
             />
         )
     }
 }
+
+const mapStateToProps = state =>({
+    product_list: state.productList
+})
+
+export default connect(mapStateToProps)(Menu)

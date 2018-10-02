@@ -6,8 +6,10 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import colors from '../styles/colors'
+import {connect} from 'react-redux'
+import {changePedidoItem} from '../store/actions/pedidoActions'
 
-export default class Product extends Component{
+class Product extends Component{
 
     state = {
         amount: 0,
@@ -20,6 +22,10 @@ export default class Product extends Component{
     _changeAmount = delta =>{
         if ( delta === -1 && this.state.amount === 0) return null
         this.setState(prev => ({ amount: prev.amount + delta }))
+
+        let { name, price } = this.props
+        price = parseFloat(price) * delta
+        this.props.changePedidoItem({ name, price })
     }
 
     render(){
@@ -70,6 +76,7 @@ const styles = StyleSheet.create({
     price:{
         fontSize: 15,
         marginTop: 10,
+        color: 'red'
     },
     quantity:{
         flexDirection: 'row',
@@ -91,3 +98,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     }
 })
+
+export default connect(()=>({}),{changePedidoItem})(Product)
