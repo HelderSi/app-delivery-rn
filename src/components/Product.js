@@ -25,7 +25,7 @@ class Product extends Component{
 
         let { name, price } = this.props
         price = parseFloat(price) * delta
-        this.props.changePedidoItem({ name, price })
+        this.props.changePedidoItem({ name, price, delta })
     }
 
     render(){
