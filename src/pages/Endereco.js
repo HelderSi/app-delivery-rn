@@ -8,6 +8,9 @@ import{
 } from 'react-native'
 import colors from '../styles/colors'
 import {Actions} from 'react-native-router-flux'
+import {connect} from 'react-redux'
+import firebase from 'firebase'
+
 
 class Endereco extends Component{
 
@@ -19,6 +22,15 @@ class Endereco extends Component{
             bairro: '',
             cliente: '',
         }
+    }
+
+    _enviarPedido = () =>{
+        const endereco = this.state
+        const {itens, total} = this.props
+        firebase.database().ref('pedidos')
+                .push({ endereco, itens, total })
+                .then( () => Actions.concluido() )
+                .catch( err => null);
     }
 
     render(){
@@ -48,7 +60,7 @@ class Endereco extends Component{
                     onChangeText={ text => this.setState({bairro:text})}
                     placeholder='Bairro'
                 />
-                <TouchableOpacity style={styles.button} onPress={ () => Actions.concluido() }>
+                <TouchableOpacity style={styles.button} onPress={ () => this._enviarPedido() }>
                     <Text style={styles.textButtom}>Enviar Pedido</Text>
                 </TouchableOpacity>
             </View>
@@ -84,4 +96,9 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Endereco
+const mapStateToProps = state =>({
+    total: state.pedido.total,
+    itens: state.pedido.itens,
+})
+
+export default connect(mapStateToProps)(Endereco)
